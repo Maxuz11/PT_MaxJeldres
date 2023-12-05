@@ -59,8 +59,11 @@
                         <label for="vehicle2" style="color: blue;">TV </label><input type="checkbox" id="chk_redSocial" name="chk_redSocial" value="chk_redSocial">
                         <label for="vehicle2" style="color: blue;">Redes sociales</label>
                         <input type="checkbox" id="chk_amigo" name="chk_amigo" value="chk_amigo">
-                        <label for="vehicle2" style="color: blue;">Amigo </label></td>
+                        <label for="vehicle2" style="color: blue;">Amigo </label>
+                    </td>
                 </tr>
+                <tr><td></td>
+                    <td><span id="error_chk" style="color: red;margin-left: 2%;"></span></td></tr>
                 <tr>
                     <td><div><button type="button" onclick="validar()">votar</button></div></td>
                 </tr>                
@@ -319,19 +322,22 @@
         else {
             $('#error_email').text('');
         }
-
+        var chk_sel = $('input[type="checkbox"]:checked');
+        var chk_env = '';
+        if (chk_sel.length > 0) {
+            chk_env = chk_sel.val();}
+        else{
+            $('#error_chk').text('Seleccione');
+            valid = false;
+        }
         //ver si hay algun campo invalido si es asi un alert con los errores de lo contrario envio del voto
         if(valid == false){
             //alert('revise el formulario tiene este(os) campo(s) vacio(s) : '+error)
             return;
         }
         else{
-            var chk_sel = $('input[type="checkbox"]:checked');
-            var chk_env = '';
-            if (chk_sel.length > 0) {
-                chk_env = chk_sel.val();
-            }
-            var item = {name:nomb,alias:al,rut:rut,email:email,region:region,comuna:comuna,cand:candidato,chk:chk_env}
+            
+                var item = {name:nomb,alias:al,rut:rut,email:email,region:region,comuna:comuna,cand:candidato,chk:chk_env}
             var data = decodeURIComponent(JSON.stringify(item));
             //console.log('se envira formulario y esto va en data'+data)
             swal({
@@ -354,6 +360,8 @@
                     .done((res) => {
                         if(res.sts==200){
                             swal("Voto enviado", "success");
+                            $('#error_chk').text('');
+                            $('#form_votaciones').trigger('reset');
                         }
                         else{
                             swal("Oops..",res.r, "error");
@@ -364,6 +372,7 @@
                     });
                     
                 });
+            
         
          }
         
