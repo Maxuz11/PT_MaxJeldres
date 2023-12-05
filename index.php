@@ -359,7 +359,7 @@
                     })
                     .done((res) => {
                         if(res.sts==200){
-                            swal("Voto enviado", "success");
+                            swal("Voto enviado","Has votado correctamente", "success");
                             $('#error_chk').text('');
                             $('#form_votaciones').trigger('reset');
                         }
