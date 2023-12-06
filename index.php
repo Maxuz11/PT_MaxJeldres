@@ -13,6 +13,7 @@
     
 </head>
 <body>
+    
     <div class="container">
         <div class="card">
             <div class="card_tittle">Formulario votación</div>
@@ -65,7 +66,7 @@
                 <tr><td></td>
                     <td><span id="error_chk" style="color: red;margin-left: 2%;"></span></td></tr>
                 <tr>
-                    <td><div><button type="button" onclick="validar()">votar</button></div></td>
+                    <td><div><button type="button" class="btn_votar" onclick="validar()">votar</button></div></td>
                 </tr>                
                 </form>
             </table>
@@ -75,6 +76,7 @@
   <script>
     $(document).ready(()=>{
         console.log('el documento esta cargado')
+        //llamado de las funciones para poblar los select
         obtenerRegiones();
         obtCandidatos();
     });
@@ -236,34 +238,34 @@
     $('#error_rut').text('');
 }
     //cambios para solo poder seleccionar un checkbox
-    $('#chk_web').on('change',function(){
-        if($(this).is(':checked')){
-            $('#chk_tv').prop('checked', false);
-            $('#chk_redSocial').prop('checked', false);
-            $('#chk_amigo').prop('checked', false);
-        }
-    });
-    $('#chk_tv').on('change',function(){
-        if($(this).is(':checked')){
-            $('#chk_web').prop('checked', false);
-            $('#chk_redSocial').prop('checked', false);
-            $('#chk_amigo').prop('checked', false);
-        }
-    });
-    $('#chk_redSocial').on('change',function(){
-        if($(this).is(':checked')){
-            $('#chk_web').prop('checked', false);
-            $('#chk_tv').prop('checked', false);
-            $('#chk_amigo').prop('checked', false);
-        }
-    });
-    $('#chk_amigo').on('change',function(){
-        if($(this).is(':checked')){
-            $('#chk_web').prop('checked', false);
-            $('#chk_tv').prop('checked', false);
-            $('#chk_redSocial').prop('checked', false);
-        }
-    });
+    // $('#chk_web').on('change',function(){
+    //     if($(this).is(':checked')){
+    //         $('#chk_tv').prop('checked', false);
+    //         $('#chk_redSocial').prop('checked', false);
+    //         $('#chk_amigo').prop('checked', false);
+    //     }
+    // });
+    // $('#chk_tv').on('change',function(){
+    //     if($(this).is(':checked')){
+    //         $('#chk_web').prop('checked', false);
+    //         $('#chk_redSocial').prop('checked', false);
+    //         $('#chk_amigo').prop('checked', false);
+    //     }
+    // });
+    // $('#chk_redSocial').on('change',function(){
+    //     if($(this).is(':checked')){
+    //         $('#chk_web').prop('checked', false);
+    //         $('#chk_tv').prop('checked', false);
+    //         $('#chk_amigo').prop('checked', false);
+    //     }
+    // });
+    // $('#chk_amigo').on('change',function(){
+    //     if($(this).is(':checked')){
+    //         $('#chk_web').prop('checked', false);
+    //         $('#chk_tv').prop('checked', false);
+    //         $('#chk_redSocial').prop('checked', false);
+    //     }
+    // });
 
     //validacion y envio de formulario
     function validar() {
@@ -306,6 +308,11 @@
             error.push('rut');
             valid = false;
         }
+        else if(!checkRut(rut)){
+            $('#error_rut').text('(*) INVALIDO');
+            error.push('rut');
+            valid = false;
+        }
         else {
             $('#error_rut').text('');
         }
@@ -324,10 +331,12 @@
         }
         var chk_sel = $('input[type="checkbox"]:checked');
         var chk_env = '';
-        if (chk_sel.length > 0) {
-            chk_env = chk_sel.val();}
+        if (chk_sel.length > 1) {
+            chk_env = chk_sel.val();
+            $('#error_chk').text('');
+        }
         else{
-            $('#error_chk').text('Seleccione');
+            $('#error_chk').text('Seleccione al menos 2');
             valid = false;
         }
         //ver si hay algun campo invalido si es asi un alert con los errores de lo contrario envio del voto
